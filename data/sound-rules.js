@@ -1,0 +1,22 @@
+KanaData.patterns.push(
+{key:'ガ',type:'浊音',prompt:'カ 加上浊点「゛」以后变成？',answer:'ガ (ga)',options:['ガ (ga)','カ (ka)','パ (pa)','ザ (za)'],note:'カ行 + ゛：k → g。カ ka → ガ ga。'},
+{key:'ザ',type:'浊音',prompt:'サ 加上浊点「゛」以后变成？',answer:'ザ (za)',options:['ザ (za)','サ (sa)','ジャ (ja)','ダ (da)'],note:'サ行 + ゛：s → z/j。サ sa → ザ za。'},
+{key:'ジ',type:'浊音',prompt:'「ジ」怎么来的、怎么读？',answer:'シ + ゛ → ジ (ji)',options:['シ + ゛ → ジ (ji)','チ + ゛ → ジ (ji)','シ + ゜ → ジ (ji)','ス + ゛ → ジ (zu)'],note:'シ shi + ゛ → ジ ji。'},
+{key:'ダ',type:'浊音',prompt:'タ 加上浊点「゛」以后变成？',answer:'ダ (da)',options:['ダ (da)','タ (ta)','ザ (za)','バ (ba)'],note:'タ行 + ゛：t → d。'},
+{key:'バ',type:'浊音',prompt:'ハ 加上浊点「゛」以后变成？',answer:'バ (ba)',options:['バ (ba)','パ (pa)','ハ (ha)','ガ (ga)'],note:'ハ行 + ゛：h → b。'},
+{key:'パ',type:'半浊音',prompt:'ハ 加上半浊点「゜」以后变成？',answer:'パ (pa)',options:['パ (pa)','バ (ba)','ガ (ga)','ハ (ha)'],note:'只有ハ行加「゜」变 p：ハ→パ、ヒ→ピ、フ→プ、ヘ→ペ、ホ→ポ。'},
+{key:'キャ',type:'拗音',prompt:'キ + 小ャ「ャ」合起来读什么？',answer:'キャ (kya)',options:['キャ (kya)','キヤ (kiya)','チャ (cha)','ギャ (gya)'],note:'イ段音 + 小ャ/ュ/ョ 合成一个声音块。'},
+{key:'シュ',type:'拗音',prompt:'シ + 小ュ「ュ」合起来是？',answer:'シュ (shu)',options:['シュ (shu)','シユ (shiyu)','ジュ (ju)','ショ (sho)'],note:'シ + 小ュ → シュ shu。'},
+{key:'チョ',type:'拗音',prompt:'チ + 小ョ「ョ」合起来是？',answer:'チョ (cho)',options:['チョ (cho)','チヨ (chiyo)','ジョ (jo)','ショ (sho)'],note:'チ + 小ョ → チョ cho。'},
+{key:'ジュ',type:'拗音 + 浊音',prompt:'「ジュ」读什么？',answer:'ju',options:['ju','shu','jo','zu'],note:'ジ + 小ュ → ジュ ju。'},
+{key:'ベッド',type:'小ッ',prompt:'「ベッド」里的小ッ有什么作用？',answer:'让后面的 d 加倍：beddo',options:['让后面的 d 加倍：beddo','把 e 拉长','独立读 tsu','让 ベ 变成 ペ'],note:'小ッ不单独读 tsu，而是制造停顿/辅音加倍。'},
+{key:'チケット',type:'小ッ',prompt:'「チケット」应该怎样读？',answer:'chiketto',options:['chiketto','chiketsuto','chiiketo','chigetto'],note:'チケット = chiketto；小ッ形成 tt。'},
+{key:'コーヒー',type:'长音',prompt:'「コーヒー」里的「ー」表示什么？',answer:'把前面的元音拉长',options:['把前面的元音拉长','让后面辅音加倍','变成浊音','停顿一拍'],note:'ー 是长音符号。コー≈koo，ヒー≈hii。'},
+{key:'スーパー',type:'长音',prompt:'「スーパー」怎么读？',answer:'suupaa',options:['suupaa','supapa','sutsupaa','suupa'],note:'スー = suu，パー = paa。'},
+{key:'フォ',type:'外来音',prompt:'「フォ」通常怎么读？',answer:'fo',options:['fo','ho','fu','wo'],note:'フ + 小ォ → フォ fo。常见于 フォーク、フォルダー。'},
+{key:'ウォ',type:'外来音',prompt:'「ウォ」通常怎么读？',answer:'wo',options:['wo','uo','o','wa'],note:'ウ + 小ォ → ウォ，常见于 ウォーター。'},
+{key:'ティ',type:'外来音',prompt:'「ティ」通常怎么读？',answer:'ti',options:['ti','chi','te','di'],note:'テ + 小ィ → ティ，表示更接近外语的 ti 音。'},
+{key:'ファ',type:'外来音',prompt:'「ファ」通常怎么读？',answer:'fa',options:['fa','ha','fua','pa'],note:'フ + 小ァ → ファ，常见于 ファイル。'},
+{key:'チェ',type:'外来音',prompt:'「チェ」通常怎么读？',answer:'che',options:['che','chi','she','je'],note:'チ + 小ェ → チェ，常见于 チェック。'},
+{key:'ディ',type:'外来音',prompt:'「ディ」通常怎么读？',answer:'di',options:['di','ji','de','ti'],note:'デ + 小ィ → ディ，表示外来语的 di。'}
+);
