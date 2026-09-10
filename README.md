@@ -27,12 +27,12 @@ A zero-backend static Japanese reading practice site for a learner who already k
 | Basic katakana | 46 | Standard katakana set used by the trainer |
 | Dakuten / handakuten reference | 25 | ガ〜ゴ, ザ〜ゾ, ダ〜ド, バ〜ボ, パ〜ポ |
 | Common yōon reference | 33 | キャ / シュ / チョ / ジュ / ピョ etc. |
-| Confusable kana targets | 8 | シ/ツ, ソ/ン, ク/ケ, ヌ/ス families |
-| Practical katakana vocabulary | **237 unique words** | Food, shopping, hotel, transport/travel, technology, daily life, clothing and study/work |
-| Long-word chunking entries | **50** | Long vowels, small ッ, yōon, foreign-sound combinations, abbreviations and compounds |
-| Real-world scenario prompts | **40** | Station, airport, hotel, convenience store, shopping, restaurant/café, phone/web UI, road travel |
-| Sound-pattern / special-sound prompts | **20** | Dakuten, handakuten, yōon, small ッ, long vowel ー, フォ / ウォ / ティ / ファ / チェ / ディ |
-| Advanced practical kanji | **40** | 改札, 乗換, 予約, 無料, 禁煙, 急行, 特急, 温泉, 朝食, 会計, 税込, 営業時間 etc. |
+| Confusable kana targets | 19 | シ/ツ, ソ/ン, ク/ケ, ヌ/ス, ア/マ, ウ/ワ/フ, コ/ユ, ナ/メ, レ/ル families |
+| Practical katakana vocabulary | **339 unique words** | Food, shopping, hotel, transport/travel, technology, daily life, clothing/study, sightseeing and health |
+| Long-word chunking entries | **70** | Long vowels, small ッ, yōon, foreign-sound combinations, abbreviations and compounds |
+| Real-world scenario prompts | **70** | Station, airport, hotel, convenience store, shopping, restaurant/café, sightseeing, health, phone/web UI and road travel |
+| Sound-pattern / special-sound prompts | **30** | Dakuten, handakuten, yōon, small ッ, long vowel ー and common foreign-sound combinations |
+| Advanced practical kanji | **62** | Station/rail, airport, hotels, shopping, medical help and emergency signage |
 
 ## Vocabulary organization
 
@@ -45,6 +45,8 @@ Vocabulary is grouped by stable semantic category rather than by update batch:
 - `data/vocab/tech.js` — phone, computer, apps, web, devices
 - `data/vocab/daily.js` — everyday objects, services, activities
 - `data/vocab/clothing-study.js` — clothing, stationery, classes, meetings, projects
+- `data/vocab/sightseeing.js` — museums, tours, visitor guides and attraction services
+- `data/vocab/health.js` — clinics, medical staff, medicines and travel health needs
 
 Each vocabulary entry uses a simple human-reviewable format:
 
@@ -109,6 +111,16 @@ The learner has **not started hiragana yet**, so kanji pronunciation guides are 
 
 Current areas include station/transport, signs, hotels/travel, restaurants, and shopping.
 
+## Content research and curation
+
+The travel expansion is organized around practical tasks described in official learner and visitor resources:
+
+- [Japan Foundation IRODORI](https://www.irodori.jpf.go.jp/) — practical Japanese for daily life, with downloadable vocabulary lists used to define high-utility domains.
+- [JNTO Japanese Language](https://www.japan.travel/en/plan/japanese-language/) — traveler communication needs and the Tourist's Language Handbook.
+- [Japan Tourism Agency / JNTO Safety Tips](https://www.jnto.go.jp/safety-tips/eng/cmcard/index.html) — emergency, illness and medical-help situations that must not be omitted from a travel set.
+
+Sources guide domain coverage and usage checks; they are not treated as a claim that every exact entry appears verbatim in one source. Entries are retained only when they are plausible on current Japanese signs, menus, facilities or interfaces, then weighted by expected usefulness: core (`w:3`), useful (`w:2`) or recognition-only (`w:1`). Each spelling has one primary vocabulary category, while cross-domain applications are represented by scenario questions rather than duplicate vocabulary records.
+
 ## Repository structure
 
 ```text
@@ -132,7 +144,9 @@ kana-sprint/
         ├── transport.js
         ├── tech.js
         ├── daily.js
-        └── clothing-study.js
+        ├── clothing-study.js
+        ├── sightseeing.js
+        └── health.js
 ```
 
 The structure is based on responsibility and stable content domains, **not update history**. New vocabulary should normally be added to an existing category file. A new category file is only appropriate for a genuinely new durable domain.
