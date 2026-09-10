@@ -84,6 +84,41 @@ updateHome=function(){
   if(copy)copy.textContent=keys.length?`有 ${keys.length} 个错题/到期项目，优先从最薄弱的开始`:'目前没有积压错题，可以做一轮预防性复习';
 };
 
+function sceneMeta(ctx=''){
+  const rules=[
+    [/机场|ゲート|チェックインカウンター|シャトルバス/,['AIRPORT','机场','AIR']],
+    [/酒店|房间|前台|大堂|ランドリー|モーニングコール|Wi-Fi/,['HOTEL','酒店','HOTEL']],
+    [/便利店|收银|商店|百货|礼品|店内|饮料区/,['SHOP','商店 / 便利店','SHOP']],
+    [/餐厅|咖啡|菜单|トッピング/,['FOOD','餐厅 / 咖啡店','FOOD']],
+    [/地铁|站内|车站|ホーム/,['STATION','车站','STATION']],
+    [/高速|租车|レンタカー/,['ROAD','道路 / 交通','ROAD']],
+    [/手机|网页|アップデート|ログイン|バッテリー/,['SCREEN','手机 / 网页','SCREEN']]
+  ];
+  for(const [re,v] of rules)if(re.test(ctx))return v;
+  return ['SCENE','真实场景','GENERIC'];
+}
+
+function splitSceneContext(ctx=''){
+  const m=ctx.match(/^([^：:]{1,14})[：:]\s*(.+)$/);
+  return m?{where:m[1],focus:m[2]}:{where:'',focus:ctx};
+}
+
+function renderSceneCard(q){
+  const box=$('#context');
+  if(!box||!q?.context||!String(q.type||'').includes('场景'))return;
+  const [code,label,kind]=sceneMeta(q.context);
+  const {where,focus}=splitSceneContext(q.context);
+  box.className='context scene-context scene-'+kind.toLowerCase();
+  box.innerHTML=`<div class="scene-topline"><span class="scene-mark">◉</span><span class="scene-label">${label}</span><span class="scene-code">${code}</span></div>${where?`<div class="scene-where">${where}</div>`:''}<div class="scene-focus">${focus}</div>`;
+}
+
+const baseRenderQEnhancement=renderQ;
+renderQ=function(){
+  baseRenderQEnhancement();
+  const q=queue[idx];
+  renderSceneCard(q);
+};
+
 const select=$('#romajiMode');
 if(select){
   select.value=state.settings.romajiMode;
