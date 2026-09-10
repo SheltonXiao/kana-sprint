@@ -19,8 +19,6 @@ The primary loop is short daily practice, weak-item review, and practical readin
 - Use frequency weights for vocabulary: `w:3` common, `w:2` useful, `w:1` occasional.
 - Recent-question suppression and SRS should work together: high-frequency words recur over days, but not annoyingly within the same or adjacent session.
 - Chunked reading must test real segmentation, not answer-format tricks. If asking for the best split, all choices should reconstruct the same original word.
-- Avoid answer leakage in every mode. If the prompt already gives the source kana transformation, do not make the correct option visually obvious by repeating that kana; test the target reading with romaji options instead. Use the reverse direction in separate questions when useful.
-- For sound-change drills, keep prompt and answer modalities complementary: `kana transformation → romaji sound` or `romaji sound → kana`, rather than giving both kana form and romaji together in every option.
 - Real-world scenarios should foreground the Japanese text itself.
 - Kanji mode stays separate from the normal katakana daily flow unless explicitly requested otherwise.
 
@@ -58,7 +56,9 @@ kana-sprint/
         ├── transport.js
         ├── tech.js
         ├── daily.js
-        └── clothing-study.js
+        ├── clothing-study.js
+        ├── sightseeing.js
+        └── health.js
 ```
 
 ## File-creation rules
@@ -81,6 +81,8 @@ kana-sprint/
 - `data/scenes.js`: real-world scenario entries.
 - `data/kanji.js`: optional advanced kanji entries using katakana readings.
 - `data/vocab/*.js`: vocabulary only, grouped by stable semantic category.
+- `data/vocab/sightseeing.js`: museums, visitor guides, tours, and attraction services.
+- `data/vocab/health.js`: clinics, medical staff, medicine, and travel-health vocabulary.
 - `README.md`: user-facing feature description plus current inventory counts.
 - `AGENTS.md`: maintenance rules and learner/product constraints.
 - Avoid monkey-patching and layered function reassignment such as `const old = fn; fn = function(){...old()...}`.
@@ -117,9 +119,8 @@ Before finishing an update:
 4. Confirm scene cards remain readable at phone widths.
 5. Confirm kanji questions use katakana readings, not hiragana.
 6. Confirm chunk segmentation choices do not reveal the answer through different source words.
-7. Confirm sound-change questions do not reveal the answer by visually echoing the transformed kana in the correct option.
-8. Confirm `kanaSprintState` is still used and older state fields are tolerated.
-9. Confirm internal storage keys are not visible in weak-item labels.
-10. Confirm vocabulary files remain one-entry-per-line and contain no duplicate `j` spelling across categories.
-11. Confirm README inventory is updated whenever content changes.
-12. Do not add a new behavior file merely to override an existing function.
+7. Confirm `kanaSprintState` is still used and older state fields are tolerated.
+8. Confirm internal storage keys are not visible in weak-item labels.
+9. Confirm vocabulary files remain one-entry-per-line and contain no duplicate `j` spelling across categories.
+10. Confirm README inventory is updated whenever content changes.
+11. Do not add a new behavior file merely to override an existing function.
