@@ -25,32 +25,30 @@
       <div class="progress"><i id="dailyProgress"></i></div><button class="primary" id="startDaily">开始今天的练习 →</button>
     </div>
 
-    <section class="card study-summary">
-      <div class="summary-head"><div><p class="eyebrow">学习记录</p><h3>你的片假名进度</h3></div><span id="summaryNote">持续积累中</span></div>
-      <div class="summary-stats">
-        <div><b id="studyDays">0</b><small>学习天数</small></div>
-        <div><b id="currentStreak">0</b><small>连续天数</small></div>
-        <div><b id="longestStreak">0</b><small>最长连续</small></div>
-        <div><b id="totalSessions">0</b><small>练习轮数</small></div>
-        <div><b id="totalAnswers">0</b><small>累计答题</small></div>
-        <div><b id="overallAccuracy">—</b><small>整体正确率</small></div>
-      </div>
-      <div class="week-wrap"><span class="week-label">最近 7 天</span><div id="weekCheckins" class="week-checkins"></div></div>
-    </section>
-
     <p class="section-title">选择练习方式</p>
     <div class="grid">
-      <button class="mode card review-mode" data-mode="review" id="reviewMistakes"><span class="mode-icon">復</span><div><b>错题复习</b><small id="reviewCopy">优先复习反复答错和今天到期的项目</small></div><em id="reviewBadge" class="review-badge">0</em></button>
+      <button class="mode card review-mode" data-mode="review" id="reviewMistakes"><span class="mode-icon">↺</span><div><b>错题复习</b><small id="reviewCopy">优先复习反复答错和今天到期的项目</small></div><em id="reviewBadge" class="review-badge">0</em></button>
       <button class="mode card" data-mode="confuse"><span class="mode-icon">シツ</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · 看清细微差别</small></div></button>
       <button class="mode card" data-mode="vocab"><span class="mode-icon">語</span><div><b>外来语实战</b><small>菜单、商店、酒店里的高频词</small></div></button>
       <button class="mode card" data-mode="chunk"><span class="mode-icon">分</span><div><b>拆词阅读</b><small>把长词拆成能快速读出的词块</small></div></button>
       <button class="mode card" data-mode="pattern"><span class="mode-icon">ガ</span><div><b>变音与特殊音</b><small>浊音 · 半浊音 · 拗音 · 小ッ · 长音ー</small></div></button>
-      <button class="mode card" data-mode="scene"><span class="mode-icon">場</span><div><b>真实场景</b><small>车站 · 餐厅 · 酒店 · 便利店</small></div></button>
-      <button class="mode card" data-mode="speed"><span class="mode-icon">速</span><div><b>快速反应</b><small>20 题连续识别，训练第一眼反应</small></div></button>
+      <button class="mode card" data-mode="scene"><span class="mode-icon">◉</span><div><b>真实场景</b><small>车站 · 餐厅 · 酒店 · 便利店</small></div></button>
+      <button class="mode card" data-mode="speed"><span class="mode-icon">⚡</span><div><b>快速反应</b><small>20 题连续识别，训练第一眼反应</small></div></button>
       <button class="mode card reference-mode" id="openChart"><span class="mode-icon">ア</span><div><b>片假名复习表</b><small>突然记混了？随时回来快速对照</small></div></button>
     </div>
+
     <section class="card weakbox"><p class="eyebrow">最近容易卡住</p><div id="weakList" class="chips"></div></section>
     <section class="card settings-card"><div><p class="eyebrow">学习设置</p><h3>罗马音提示</h3><p id="romajiExplain">自动模式会在你熟练后慢慢减少提示，答错时仍会显示。</p></div><select id="romajiMode" aria-label="罗马音提示模式"><option value="auto">自动调整</option><option value="always">始终显示</option><option value="minimal">尽量隐藏</option></select></section>
+
+    <section class="card study-summary">
+      <div class="summary-head"><div><p class="eyebrow">学习打卡</p><h3>这周的学习节奏</h3></div><span id="summaryNote">从今天开始记录</span></div>
+      <div class="checkin-main">
+        <div class="checkin-stat"><b id="studyDays">0</b><span>累计学习天数</span></div>
+        <div class="checkin-stat"><b id="currentStreak">0</b><span>当前连续天数</span></div>
+      </div>
+      <div class="week-wrap"><div class="week-title"><span class="week-label">本周</span><span id="weekRange"></span></div><div id="weekCheckins" class="week-checkins"></div></div>
+      <div class="summary-secondary"><span>累计答题 <b id="totalAnswers">0</b></span><span>整体正确率 <b id="overallAccuracy">—</b></span></div>
+    </section>
   </section>
 
   <section id="chart" class="screen">
