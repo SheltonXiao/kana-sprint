@@ -1,69 +1,149 @@
 # Kana Sprint · 片假名实战
 
-A zero-backend static Japanese reading practice site designed for learners who already know most katakana and want faster recognition, better real-world reading, and light spaced repetition.
+A zero-backend static Japanese reading practice site for a learner who already knows most katakana and wants faster recognition, better real-world reading, and light spaced repetition.
 
 ## Current learning modes
 
 - Daily 15-question mixed practice
-- Mistake review with due/weak-item prioritization
+- Mistake review with due / weak-item prioritization
 - Confusable katakana drills
 - Practical loanword vocabulary
 - Chunked reading for long katakana words
-- Dakuten / handakuten / yōon / small ッ / long-vowel ー practice
+- Dakuten / handakuten / yōon / small `ッ` / long-vowel `ー` practice
 - Real-world Japan scenarios
 - Quick-reaction mode
 - Katakana reference table
-- Advanced practical kanji reading / furigana-style reading practice
+- Advanced practical kanji reading with **katakana pronunciation guides**
 - Adaptive romaji hints: automatic / always show / minimal
-- Weekly check-in summary (Monday to Sunday)
+- Weekly check-in summary using Monday → Sunday natural weeks
 - Recent-question rotation to reduce unnecessary repetition
 
 ## Current content inventory
 
-> The app generates multiple question forms and randomized distractors from these entries, so the number of possible rendered multiple-choice questions is larger than the raw content-entry count below.
+> Counts below refer to source content entries, not rendered multiple-choice variants. The app can generate multiple question forms and randomized distractors from the same source item.
 
 | Content area | Current size | Coverage |
 | --- | ---: | --- |
 | Basic katakana | 46 | Standard katakana set used by the trainer |
-| Dakuten / handakuten | 25 | ガ〜ゴ, ザ〜ゾ, ダ〜ド, バ〜ボ, パ〜ポ |
-| Common yōon | 33 | キャ / シュ / チョ / ジュ / ピョ etc. |
+| Dakuten / handakuten reference | 25 | ガ〜ゴ, ザ〜ゾ, ダ〜ド, バ〜ボ, パ〜ポ |
+| Common yōon reference | 33 | キャ / シュ / チョ / ジュ / ピョ etc. |
 | Confusable kana targets | 8 | シ/ツ, ソ/ン, ク/ケ, ヌ/ス families |
-| Practical katakana vocabulary | 132 | Food, shopping, hotel, travel, station/airport, technology, daily life |
-| Long-word chunking templates | 31 templates, 30 unique words | e.g. チョコレート, チェックアウト, インフォメーション, モバイルバッテリー |
-| Real-world scenario prompts | 30 | Station, airport, hotel, restaurant, convenience store, shopping, phone/web UI, road travel |
-| Sound-pattern / special-sound prompts | 16 | Dakuten, handakuten, yōon, small ッ, long vowel ー, フォ / ウォ / ティ / ファ / チェ / ディ |
-| Advanced practical kanji | 40 | 改札, 乗換, 予約, 無料, 禁煙, 急行, 特急, 温泉, 朝食, 会計, 税込, 営業時間 etc. |
+| Practical katakana vocabulary | **237 unique words** | Food, shopping, hotel, transport/travel, technology, daily life, clothing and study/work |
+| Long-word chunking entries | **50** | Long vowels, small ッ, yōon, foreign-sound combinations, abbreviations and compounds |
+| Real-world scenario prompts | **40** | Station, airport, hotel, convenience store, shopping, restaurant/café, phone/web UI, road travel |
+| Sound-pattern / special-sound prompts | **20** | Dakuten, handakuten, yōon, small ッ, long vowel ー, フォ / ウォ / ティ / ファ / チェ / ディ |
+| Advanced practical kanji | **40** | 改札, 乗換, 予約, 無料, 禁煙, 急行, 特急, 温泉, 朝食, 会計, 税込, 営業時間 etc. |
 
-## Vocabulary coverage
+## Vocabulary organization
 
-The current katakana vocabulary bank emphasizes practical recognition rather than textbook ordering. Major areas include:
+Vocabulary is grouped by stable semantic category rather than by update batch:
 
-- **Food & cafés:** コーヒー, サンドイッチ, カレー, パスタ, トッピング, ドレッシング, ミネラルウォーター
-- **Shopping:** レジ, セルフレジ, レシート, クーポン, バーコード, ラッピング, ペットボトル
-- **Hotels:** フロント, ルームキー, アメニティ, ランドリー, ドライヤー, モーニングコール
-- **Transport & airports:** ホーム, ターミナル, ゲート, カウンター, シャトルバス, レンタカー, サービスエリア
-- **Technology & daily life:** スマホ, パソコン, コンセント, リモコン, バッテリー, アプリ, ログイン, ダウンロード
+- `data/vocab/food.js` — food, drinks, cafés, restaurant vocabulary
+- `data/vocab/shopping.js` — stores, checkout, payment, discounts, packaging
+- `data/vocab/hotel.js` — hotel rooms, front desk, amenities, bathroom items
+- `data/vocab/transport.js` — stations, airports, tickets, rental cars, travel
+- `data/vocab/tech.js` — phone, computer, apps, web, devices
+- `data/vocab/daily.js` — everyday objects, services, activities
+- `data/vocab/clothing-study.js` — clothing, stationery, classes, meetings, projects
+
+Each vocabulary entry uses a simple human-reviewable format:
+
+```js
+{j:'レシート', r:'reshiito', c:'小票/收据', src:'receipt', cat:'购物', w:3}
+```
+
+`w` is a frequency / usefulness weight used by the question selector:
+
+- `w:3` — high-frequency / highly useful, allowed to return more often across days
+- `w:2` — useful common vocabulary
+- `w:1` — occasional exposure; lower repetition priority
+
+Vocabulary files keep **one entry per physical line** for easier human checking.
+
+## Repetition and question rotation
+
+The trainer intentionally balances repetition and novelty:
+
+- Wrong, weak, and due items are allowed to return quickly.
+- High-frequency vocabulary appears more often over multiple days.
+- Recently seen normal items are strongly de-prioritized in nearby sessions.
+- The recent-question history is kept locally so the app avoids the feeling of seeing the same handful of questions over and over.
+- Repetition is not removed completely: some recurrence over nearby days is intentional for memory reinforcement.
+
+## Chunked reading
+
+Chunked-reading questions now avoid the earlier giveaway where only one answer could reconstruct the source word.
+
+For segmentation questions, **all options reconstruct the same original katakana word**. The learner must choose the split that best preserves useful sound blocks such as yōon, small `ッ`, long vowels, and familiar word chunks.
+
+Example:
+
+```text
+チェックアウト
+→ チェッ・ク・アウ・ト
+```
+
+The other options may place boundaries differently, but still contain the same source characters.
+
+## English comparison
+
+Practical vocabulary feedback includes a short English/source association where useful, for example:
+
+- `レシート` → receipt → 小票/收据
+- `エレベーター` → elevator → 电梯
+- `チェックアウト` → check-out → 退房
+- `コンセント` → Japanese-specific loanword usage → 电源插座
+
+English is only used as a memory aid. Japanese-specific meanings are explicitly called out when a direct English guess would be misleading.
 
 ## Advanced kanji scope
 
-The kanji mode is intentionally kept separate from the main katakana daily flow because it is a harder layer. It currently focuses on high-frequency words likely to appear in Japan:
+The kanji mode is intentionally kept separate from the main katakana daily flow because it is a harder layer.
 
-- **Station / transport:** 改札, 切符, 乗換, 急行, 特急, 各駅停車, 終電, 運休, 遅延, 到着, 出発
-- **Signs:** 出口, 入口, 無料, 有料, 禁煙, 非常口, 立入禁止, 注意
-- **Hotels / travel:** 予約, 温泉, 大浴場, 朝食, 夕食, 受付
-- **Restaurants / shopping:** 会計, 注文, 現金, 税込, 税別, 売切, 免税, 営業時間, 定休日
+The learner has **not started hiragana yet**, so kanji pronunciation guides are currently written in katakana:
 
-Questions mainly ask **kanji → hiragana reading**, with some meaning-recognition questions mixed in.
+- `改札 → カイサツ` — 检票口
+- `予約 → ヨヤク` — 预约
+- `温泉 → オンセン` — 温泉
+- `特急 → トッキュウ` — 特急
 
-## Learning logic
+Current areas include station/transport, signs, hotels/travel, restaurants, and shopping.
 
-Progress is stored locally in `localStorage`. The trainer tracks item-level right/wrong counts, review due dates, current streak, study days, and recent-question history.
+## Repository structure
 
-For normal practice, recently seen mastered questions are de-prioritized to reduce boring repetition. Mistakes and due review items are intentionally allowed to return more often.
+```text
+kana-sprint/
+├── index.html
+├── app.js
+├── README.md
+├── AGENTS.md
+├── styles/
+│   └── main.css
+└── data/
+    ├── kana.js
+    ├── sound-rules.js
+    ├── chunks.js
+    ├── scenes.js
+    ├── kanji.js
+    └── vocab/
+        ├── food.js
+        ├── shopping.js
+        ├── hotel.js
+        ├── transport.js
+        ├── tech.js
+        ├── daily.js
+        └── clothing-study.js
+```
+
+The structure is based on responsibility and stable content domains, **not update history**. New vocabulary should normally be added to an existing category file. A new category file is only appropriate for a genuinely new durable domain.
+
+## Learning state
+
+Progress is stored locally in `localStorage` under `kanaSprintState`. The trainer keeps item-level right/wrong counts, review due dates, current streak, study days, recent-question history, total answers, and overall accuracy.
 
 Romaji support can be set to:
 
-- **Auto:** keep hints early, then gradually reduce them for items that are repeatedly answered correctly
+- **Auto:** keep hints early, then gradually reduce them for repeatedly correct items
 - **Always:** keep romaji visible in feedback
 - **Minimal:** hide most auxiliary romaji when answers are correct, but still show it after mistakes
 
@@ -75,8 +155,8 @@ Romaji support can be set to:
 4. Save.
 5. The site will be available at `https://sheltonxiao.github.io/kana-sprint/` once Pages finishes publishing.
 
-## Notes
+## Maintenance notes
 
-Progress is browser-local. Clearing site data or switching to another device/browser creates a separate progress history.
+`AGENTS.md` is the source of truth for future maintenance behavior, learner constraints, repository structure, UI direction, and content-file rules.
 
-When adding future content packs, update this README so the inventory reflects the current deployed question bank.
+Whenever vocabulary, chunks, scenes, sound prompts, or kanji entries change, update the inventory in this README in the same maintenance pass.
