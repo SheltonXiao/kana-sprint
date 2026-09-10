@@ -11,7 +11,7 @@
 <body>
 <header class="topbar">
   <div class="brand">カナ<span>Sprint</span></div>
-  <div class="stats"><span>🔥 <b id="streak">0</b></span><span>⭐ <b id="xp">0</b> XP</span></div>
+  <div class="stats"><span>STREAK <b id="streak">0</b></span><span>XP <b id="xp">0</b></span></div>
 </header>
 <main class="shell">
   <section id="home" class="screen active">
@@ -20,24 +20,24 @@
       <div class="ring"><b id="mastery">0%</b><small>掌握度</small></div>
     </div>
     <div class="today card quest-card">
-      <div class="today-head"><div><p class="eyebrow">🎯 每日闯关</p><h2>15 题混合练习</h2></div><span class="pill" id="dueCount">复习 0</span></div>
+      <div class="today-head"><div><p class="eyebrow">每日闯关</p><h2>15 题混合练习</h2></div><span class="pill" id="dueCount">复习 0</span></div>
       <p class="quest-copy">大约 5 分钟 · 答错的词会自动回来找你</p>
       <div class="progress"><i id="dailyProgress"></i></div><button class="primary" id="startDaily">开始今日挑战 →</button>
     </div>
     <p class="section-title">选择一种玩法</p>
     <div class="grid">
-      <button class="mode card review-mode" data-mode="review" id="reviewMistakes"><span class="mode-icon">🔁</span><div><b>错题复习</b><small id="reviewCopy">优先复习反复答错和今天到期的项目</small></div><em id="reviewBadge" class="review-badge">0</em></button>
-      <button class="mode card" data-mode="confuse"><span class="mode-icon">👀</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · 看清那一撇</small></div></button>
-      <button class="mode card" data-mode="vocab"><span class="mode-icon">🍜</span><div><b>外来语实战</b><small>菜单、商店、酒店里的高频词</small></div></button>
-      <button class="mode card" data-mode="chunk"><span class="mode-icon">🧩</span><div><b>拆词阅读</b><small>把 チョコレート 拆成能读的小块</small></div></button>
-      <button class="mode card" data-mode="pattern"><span class="mode-icon">✨</span><div><b>变音实验室</b><small>浊音 · 半浊音 · 拗音 · 小ッ · 长音ー</small></div></button>
-      <button class="mode card" data-mode="scene"><span class="mode-icon">🗼</span><div><b>日本现场</b><small>车站 · 餐厅 · 酒店 · 便利店</small></div></button>
-      <button class="mode card" data-mode="speed"><span class="mode-icon">⚡</span><div><b>闪电挑战</b><small>20 题快速反应，不给大脑慢慢翻表</small></div></button>
-      <button class="mode card reference-mode" id="openChart"><span class="mode-icon">🗂️</span><div><b>片假名急救表</b><small>突然记混了？随时回来扫一眼</small></div></button>
+      <button class="mode card review-mode" data-mode="review" id="reviewMistakes"><span class="mode-icon">復</span><div><b>错题复习</b><small id="reviewCopy">优先复习反复答错和今天到期的项目</small></div><em id="reviewBadge" class="review-badge">0</em></button>
+      <button class="mode card" data-mode="confuse"><span class="mode-icon">シツ</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · 看清那一撇</small></div></button>
+      <button class="mode card" data-mode="vocab"><span class="mode-icon">語</span><div><b>外来语实战</b><small>菜单、商店、酒店里的高频词</small></div></button>
+      <button class="mode card" data-mode="chunk"><span class="mode-icon">分</span><div><b>拆词阅读</b><small>把 チョコレート 拆成能读的小块</small></div></button>
+      <button class="mode card" data-mode="pattern"><span class="mode-icon">ガ</span><div><b>变音实验室</b><small>浊音 · 半浊音 · 拗音 · 小ッ · 长音ー</small></div></button>
+      <button class="mode card" data-mode="scene"><span class="mode-icon">場</span><div><b>日本现场</b><small>车站 · 餐厅 · 酒店 · 便利店</small></div></button>
+      <button class="mode card" data-mode="speed"><span class="mode-icon">速</span><div><b>闪电挑战</b><small>20 题快速反应，不给大脑慢慢翻表</small></div></button>
+      <button class="mode card reference-mode" id="openChart"><span class="mode-icon">ア</span><div><b>片假名急救表</b><small>突然记混了？随时回来扫一眼</small></div></button>
     </div>
-    <section class="card weakbox"><p class="eyebrow">🧠 最近容易卡住</p><div id="weakList" class="chips"></div></section>
+    <section class="card weakbox"><p class="eyebrow">最近容易卡住</p><div id="weakList" class="chips"></div></section>
     <section class="card settings-card">
-      <div><p class="eyebrow">⚙️ 学习设置</p><h3>罗马音提示</h3><p id="romajiExplain">自动模式会在你熟练后慢慢减少提示，答错时仍会显示。</p></div>
+      <div><p class="eyebrow">学习设置</p><h3>罗马音提示</h3><p id="romajiExplain">自动模式会在你熟练后慢慢减少提示，答错时仍会显示。</p></div>
       <select id="romajiMode" aria-label="罗马音提示模式">
         <option value="auto">自动调整</option>
         <option value="always">始终显示</option>
@@ -67,9 +67,9 @@
     </article>
   </section>
 
-  <section id="quiz" class="screen"><div class="quiztop"><button class="ghost" id="quit">✕</button><div class="progress"><i id="quizProgress"></i></div><span id="quizCounter">1/15</span></div><article class="question card"><p class="eyebrow" id="qType">快速识别</p><div id="context" class="context"></div><h2 id="prompt"></h2><p id="subprompt" class="subprompt"></p><div id="options" class="options"></div><div id="feedback" class="feedback hidden"></div><button id="next" class="primary hidden">继续 →</button></article></section>
+  <section id="quiz" class="screen"><div class="quiztop"><button class="ghost" id="quit">×</button><div class="progress"><i id="quizProgress"></i></div><span id="quizCounter">1/15</span></div><article class="question card"><p class="eyebrow" id="qType">快速识别</p><div id="context" class="context"></div><h2 id="prompt"></h2><p id="subprompt" class="subprompt"></p><div id="options" class="options"></div><div id="feedback" class="feedback hidden"></div><button id="next" class="primary hidden">继续 →</button></article></section>
 
-  <section id="result" class="screen"><article class="result card"><div class="resultEmoji">🎌</div><p class="eyebrow">QUEST COMPLETE</p><h1 id="resultTitle">这一关结束！</h1><p id="resultText"></p><div class="resultstats"><div><b id="scorePct">0%</b><small>正确率</small></div><div><b id="earnedXp">0</b><small>XP</small></div><div><b id="wrongCount">0</b><small>待复习</small></div></div><button class="primary" id="backHome">回到首页</button></article></section>
+  <section id="result" class="screen"><article class="result card"><p class="eyebrow">QUEST COMPLETE</p><h1 id="resultTitle">这一关结束！</h1><p id="resultText"></p><div class="resultstats"><div><b id="scorePct">0%</b><small>正确率</small></div><div><b id="earnedXp">0</b><small>XP</small></div><div><b id="wrongCount">0</b><small>待复习</small></div></div><button class="primary" id="backHome">回到首页</button></article></section>
 </main>
 <footer>进度保存在本机浏览器 · 无账号 · GitHub Pages</footer>
 <script src="app.js"></script>
