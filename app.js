@@ -9,30 +9,49 @@ const VOCAB=[
 {j:'ロッカー',r:'rokkaa',c:'储物柜',src:'locker',cat:'旅行'},{j:'コインロッカー',r:'koin rokkaa',c:'投币储物柜',src:'coin locker',cat:'旅行'},{j:'インフォメーション',r:'infomeeshon',c:'问讯处/信息',src:'information',cat:'旅行'},{j:'チェックイン',r:'chekkuin',c:'办理入住/值机',src:'check-in',cat:'旅行'},{j:'チェックアウト',r:'chekkuauto',c:'退房',src:'check-out',cat:'旅行'},{j:'フロント',r:'furonto',c:'酒店前台',src:'front desk',cat:'酒店'},{j:'ダブル',r:'daburu',c:'双人床/双倍',src:'double',cat:'酒店'},{j:'キャンセル',r:'kyanseru',c:'取消',src:'cancel',cat:'旅行'},{j:'スマホ',r:'sumaho',c:'智能手机',src:'smartphone（缩略）',cat:'科技'},{j:'パソコン',r:'pasokon',c:'电脑',src:'personal computer（缩略）',cat:'科技'},
 {j:'コンセント',r:'konsento',c:'电源插座',src:'日语独特外来语用法',cat:'科技'},{j:'カメラ',r:'kamera',c:'相机',src:'camera',cat:'科技'},{j:'テレビ',r:'terebi',c:'电视',src:'television（缩略）',cat:'科技'},{j:'リモコン',r:'rimokon',c:'遥控器',src:'remote control（缩略）',cat:'科技'},{j:'エアコン',r:'eakon',c:'空调',src:'air conditioner（缩略）',cat:'生活'},{j:'シャワー',r:'shawaa',c:'淋浴',src:'shower',cat:'生活'},{j:'スリッパ',r:'surippa',c:'拖鞋',src:'slipper',cat:'生活'},{j:'ベッド',r:'beddo',c:'床',src:'bed',cat:'酒店'},{j:'ドリンク',r:'dorinku',c:'饮料',src:'drink',cat:'餐饮'},{j:'ランチ',r:'ranchi',c:'午餐',src:'lunch',cat:'餐饮'}
 ];
+const CHUNKS=[
+{j:'チョコレート',chunks:['チョ','コ','レー','ト'],r:'cho · ko · ree · to',c:'巧克力',tip:'先抓 チョ(cho)，再看 レー 的长音。'},
+{j:'チェックアウト',chunks:['チェッ','ク','アウ','ト'],r:'chek · ku · au · to',c:'退房',tip:'チェ + 小ッ + ク：小ッ制造 k 的停顿/加倍。'},
+{j:'チェックイン',chunks:['チェッ','ク','イン'],r:'chek · ku · in',c:'办理入住/值机',tip:'和 checkout 共用前半段 チェック。'},
+{j:'エスカレーター',chunks:['エス','カ','レー','ター'],r:'esu · ka · ree · taa',c:'自动扶梯',tip:'两个 ー 都是长音；看到 レー、ター 要拉长。'},
+{j:'エレベーター',chunks:['エ','レ','ベー','ター'],r:'e · re · bee · taa',c:'电梯',tip:'ベ 是 ヘ + ゛ 的浊音；ベー = bee。'},
+{j:'インフォメーション',chunks:['イン','フォ','メー','ション'],r:'in · fo · mee · shon',c:'信息/问讯处',tip:'ション 是常见尾巴，接近英文 -tion。'},
+{j:'コインロッカー',chunks:['コイン','ロッ','カー'],r:'koin · rok · kaa',c:'投币储物柜',tip:'ロッカー：小ッ让 k 加倍，ー 拉长 a。'},
+{j:'サンドイッチ',chunks:['サン','ド','イッ','チ'],r:'san · do · ic · chi',c:'三明治',tip:'イッチ 里小ッ让后面的 ch 更短促。'},
+{j:'クレジットカード',chunks:['クレ','ジッ','ト','カー','ド'],r:'kure · jit · to · kaa · do',c:'信用卡',tip:'ジ = シ + ゛；ジット里小ッ强化 t。'},
+{j:'ハンバーガー',chunks:['ハン','バー','ガー'],r:'han · baa · gaa',c:'汉堡',tip:'バー、ガー 都有长音；ガ = カ + ゛。'},
+{j:'コンセント',chunks:['コン','セン','ト'],r:'kon · sen · to',c:'电源插座',tip:'这是日本生活里很实用的“不能只靠英语直猜”词。'},
+{j:'エアコン',chunks:['エア','コン'],r:'ea · kon',c:'空调',tip:'air conditioner 的日语缩略，抓住 コン。'},
+{j:'リモコン',chunks:['リモ','コン'],r:'rimo · kon',c:'遥控器',tip:'remote control 的日语缩略，和 エアコン 共用 コン。'},
+{j:'パソコン',chunks:['パソ','コン'],r:'paso · kon',c:'电脑',tip:'personal computer 的日语缩略；コン 在多个缩略词中反复出现。'},
+{j:'テイクアウト',chunks:['テイ','ク','アウ','ト'],r:'tei · ku · au · to',c:'外带',tip:'按 take-out 的节奏分块，比逐字母硬读快。'},
+{j:'ポイントカード',chunks:['ポイン','ト','カー','ド'],r:'poin · to · kaa · do',c:'积分卡',tip:'カード = kaado，ー 拉长 a。'}
+];
 const SCENES=[
 {ctx:'东京地铁站内标识：エレベーター',p:'最可能指什么？',a:'电梯',o:['自动扶梯','出口','检票口'],note:'读音 erebeetaa。ー 把前面的元音拉长。'},
 {ctx:'站内指示：ホーム（中央）～改札',p:'这里的「ホーム」是什么？',a:'站台',o:['大厅','酒店','家'],note:'读音 hoomu。铁路语境的 ホーム = platform；ー 表示长音。'},
 {ctx:'便利店：ポイントカードはありますか？',p:'「ポイントカード」是什么？',a:'积分卡',o:['信用卡','车票','菜单'],note:'读音 pointo kaado。カード 里的 ー 把 ka 拉长为 kaa。'},
-{ctx:'咖啡店：アイスコーヒー / ホットコーヒー',p:'想喝冰咖啡应选？',a:'アイスコーヒー',o:['ホットコーヒー','コーヒーゼリー','ミルク'],note:'コーヒー 读 koohii，两个 ー 都表示长音。ホット 的小ッ让后面的 t 加倍。'},
-{ctx:'酒店：チェックアウト 11:00',p:'11:00 是什么时间？',a:'退房时间',o:['入住时间','早餐时间','门禁时间'],note:'チェックアウト 读 chekkuauto。小ッ让后面的 k 加倍：che + kku。'},
-{ctx:'商店结账：レジはこちら',p:'「レジ」是什么？',a:'收银台',o:['问讯处/信息','相机','芝士'],note:'读音 reji。ジ 是浊音：シ + ゛ → ジ，shi 系列浊化后读 ji。'},
+{ctx:'咖啡店：アイスコーヒー / ホットコーヒー',p:'想喝冰咖啡应选？',a:'アイスコーヒー',o:['ホットコーヒー','コーヒーゼリー','ミルク'],note:'コーヒー 读 koohii；ホット 的小ッ让后面的 t 加倍。'},
+{ctx:'酒店：チェックアウト 11:00',p:'11:00 是什么时间？',a:'退房时间',o:['入住时间','早餐时间','门禁时间'],note:'チェックアウト 读 chekkuauto。拆成 チェッ・ク・アウ・ト 会更容易。'},
+{ctx:'商店结账：レジはこちら',p:'「レジ」是什么？',a:'收银台',o:['问讯处/信息','相机','芝士'],note:'读音 reji。ジ 是浊音：シ + ゛ → ジ，读 ji。'},
 {ctx:'酒店大堂：フロントはこちら',p:'应该往哪里走？',a:'酒店前台',o:['浴室','餐厅','车站月台'],note:'フロント 读 furonto，酒店语境下表示 front desk。'},
 {ctx:'餐厅菜单：ランチセット 1,200円',p:'最合理的理解是？',a:'午餐套餐 1200 日元',o:['午餐单品 120 日元','晚餐套餐 1200 日元','房间服务 1200 日元'],note:'ランチ ranchi；セット setto。セット 的小ッ让 t 加倍。'},
-{ctx:'车站：コインロッカー →',p:'箭头指向什么？',a:'投币储物柜',o:['售票机','自动贩卖机','卫生间'],note:'ロッカー 读 rokkaa：小ッ = kk，ー = aa。'},
-{ctx:'房间说明：エアコンのリモコン',p:'指的是什么？',a:'空调遥控器',o:['电视遥控器','空调插座','房间电话'],note:'エアコン eakon；リモコン rimokon，都是日语里常见的缩略外来语。'}
+{ctx:'车站：コインロッカー →',p:'箭头指向什么？',a:'投币储物柜',o:['售票机','自动贩卖机','卫生间'],note:'拆成 コイン・ロッ・カー。小ッ = kk，ー = aa。'},
+{ctx:'房间说明：エアコンのリモコン',p:'指的是什么？',a:'空调遥控器',o:['电视遥控器','空调插座','房间电话'],note:'エアコン eakon；リモコン rimokon，都是常见缩略外来语。'}
 ];
 const PATTERNS=[
 {key:'ガ',type:'浊音',prompt:'カ 加上浊点「゛」以后变成？',answer:'ガ (ga)',options:['ガ (ga)','カ (ka)','パ (pa)','ザ (za)'],note:'カ行 + ゛：k → g。カ ka → ガ ga。'},
 {key:'ジ',type:'浊音',prompt:'「ジ」怎么来的、怎么读？',answer:'シ + ゛ → ジ (ji)',options:['シ + ゛ → ジ (ji)','チ + ゛ → ジ (ji)','シ + ゜ → ジ (ji)','ス + ゛ → ジ (zu)'],note:'サ行 + ゛整体变成 z/j 系：サ za、シ ji、ス zu、セ ze、ソ zo。'},
 {key:'パ',type:'半浊音',prompt:'ハ 加上半浊点「゜」以后变成？',answer:'パ (pa)',options:['パ (pa)','バ (ba)','ガ (ga)','ハ (ha)'],note:'只有ハ行能加「゜」变 p：ハ→パ、ヒ→ピ、フ→プ、ヘ→ペ、ホ→ポ。'},
 {key:'キャ',type:'拗音',prompt:'キ + 小ャ「ャ」合起来读什么？',answer:'キャ (kya)',options:['キャ (kya)','キヤ (kiya)','チャ (cha)','ギャ (gya)'],note:'イ段音 + 小ャ/ュ/ョ 合成一拍：キ + ャ → キャ (kya)。'},
-{key:'ジュ',type:'拗音 + 浊音',prompt:'「ジュ」读什么？',answer:'ju',options:['ju','shu','jo','zu'],note:'シ→ジ 是浊化；ジ + 小ュ → ジュ (ju)。这就是“浊音 + 拗音”。'},
-{key:'ベッド',type:'小ッ',prompt:'「ベッド」里的小ッ有什么作用？',answer:'让后面的 d 加倍：beddo',options:['让后面的 d 加倍：beddo','把 e 拉长','读成一个独立的 tsu','让 ベ 变成 ペ'],note:'小ッ本身不单独读 tsu，而是让后面辅音停顿/加倍：ベッド beddo。'},
+{key:'ジュ',type:'拗音 + 浊音',prompt:'「ジュ」读什么？',answer:'ju',options:['ju','shu','jo','zu'],note:'シ→ジ 是浊化；ジ + 小ュ → ジュ (ju)。'},
+{key:'ベッド',type:'小ッ',prompt:'「ベッド」里的小ッ有什么作用？',answer:'让后面的 d 加倍：beddo',options:['让后面的 d 加倍：beddo','把 e 拉长','读成一个独立的 tsu','让 ベ 变成 ペ'],note:'小ッ不单独读 tsu，而是让后面辅音有停顿/加倍：ベッド beddo。'},
 {key:'チケット',type:'小ッ',prompt:'「チケット」应该怎样读？',answer:'chiketto',options:['chiketto','chiketsuto','chiiketo','chigetto'],note:'チケット = chiketto。小ッ在 t 前，所以形成 tt。'},
 {key:'コーヒー',type:'长音',prompt:'「コーヒー」里的「ー」表示什么？',answer:'把前面的元音拉长',options:['把前面的元音拉长','让后面辅音加倍','变成浊音','停顿一拍但不延长元音'],note:'ー 是长音符号。コー ≈ koo，ヒー ≈ hii，所以 koohii。'},
 {key:'スーパー',type:'长音',prompt:'「スーパー」怎么读？',answer:'suupaa',options:['suupaa','supapa','sutsupaa','suupa'],note:'スー = suu，パー = paa；ー 把前一个元音拉长。'},
 {key:'チョ',type:'拗音',prompt:'チ + 小ョ「ョ」合起来是？',answer:'チョ (cho)',options:['チョ (cho)','チヨ (chiyo)','ジョ (jo)','ショ (sho)'],note:'チ + 小ョ → チョ (cho)，小ョ不单独占一拍。'}
 ];
+
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 let state=JSON.parse(localStorage.getItem('kanaSprintState')||'null')||{xp:0,streak:0,lastDate:null,doneToday:0,items:{},sessions:0};
 let queue=[],idx=0,correct=0,wrong=[],mode='daily',answered=false;
@@ -43,14 +62,15 @@ function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
 function sample(a,n){return shuffle(a).slice(0,n)}
 function distract(v,pool,n=3){return sample([...new Set(pool)].filter(x=>x!==v),n)}
 function show(id){$$('.screen').forEach(x=>x.classList.remove('active'));$('#'+id).classList.add('active');scrollTo(0,0)}
-function spellingNote(j){const notes=[];const dak={'ガ':'カ + ゛→ ガ (ga)','ギ':'キ + ゛→ ギ (gi)','グ':'ク + ゛→ グ (gu)','ゲ':'ケ + ゛→ ゲ (ge)','ゴ':'コ + ゛→ ゴ (go)','ザ':'サ + ゛→ ザ (za)','ジ':'シ + ゛→ ジ (ji)','ズ':'ス + ゛→ ズ (zu)','ゼ':'セ + ゛→ ゼ (ze)','ゾ':'ソ + ゛→ ゾ (zo)','ダ':'タ + ゛→ ダ (da)','デ':'テ + ゛→ デ (de)','ド':'ト + ゛→ ド (do)','バ':'ハ + ゛→ バ (ba)','ビ':'ヒ + ゛→ ビ (bi)','ブ':'フ + ゛→ ブ (bu)','ベ':'ヘ + ゛→ ベ (be)','ボ':'ホ + ゛→ ボ (bo)'};const hand={'パ':'ハ + ゜→ パ (pa)','ピ':'ヒ + ゜→ ピ (pi)','プ':'フ + ゜→ プ (pu)','ペ':'ヘ + ゜→ ペ (pe)','ポ':'ホ + ゜→ ポ (po)'};for(const ch of j){if(dak[ch])notes.push('浊音 '+dak[ch]);if(hand[ch])notes.push('半浊音 '+hand[ch])}notes.push(...YOUON.filter(([x])=>j.includes(x)).map(([x,r])=>`拗音 ${x} = ${r}（イ段音 + 小ャ/ュ/ョ）`));if(j.includes('ッ'))notes.push('小ッ：让后面的辅音加倍/有短促停顿');if(j.includes('ー'))notes.push('ー：把前一个元音拉长');return[...new Set(notes)].join('；')}
-function updateHome(){$('#xp').textContent=state.xp;$('#streak').textContent=state.streak;$('#dailyProgress').style.width=Math.min(100,state.doneToday/15*100)+'%';const stats=Object.values(state.items),attempts=stats.reduce((a,x)=>a+x.right+x.wrong,0),rights=stats.reduce((a,x)=>a+x.right,0);$('#mastery').textContent=(attempts?Math.round(rights/attempts*100):0)+'%';$('#dueCount').textContent='复习 '+Object.values(state.items).filter(x=>x.due<=today()).length;const weak=Object.entries(state.items).sort((a,b)=>((b[1].wrong+1)/(b[1].right+b[1].wrong+2))-((a[1].wrong+1)/(a[1].right+a[1].wrong+2))).slice(0,6).map(x=>x[0]);$('#weakList').innerHTML=(weak.length?weak:['シ / ツ','ソ / ン','ジ','小ッ','長音ー']).map(x=>`<span class="chip">${x}</span>`).join('')}
+function spellingNote(j){const notes=[];const dak={'ガ':'カ + ゛→ ガ (ga)','ギ':'キ + ゛→ ギ (gi)','グ':'ク + ゛→ グ (gu)','ゲ':'ケ + ゛→ ゲ (ge)','ゴ':'コ + ゛→ ゴ (go)','ザ':'サ + ゛→ ザ (za)','ジ':'シ + ゛→ ジ (ji)','ズ':'ス + ゛→ ズ (zu)','ゼ':'セ + ゛→ ゼ (ze)','ゾ':'ソ + ゛→ ゾ (zo)','ダ':'タ + ゛→ ダ (da)','デ':'テ + ゛→ デ (de)','ド':'ト + ゛→ ド (do)','バ':'ハ + ゛→ バ (ba)','ビ':'ヒ + ゛→ ビ (bi)','ブ':'フ + ゛→ ブ (bu)','ベ':'ヘ + ゛→ ベ (be)','ボ':'ホ + ゛→ ボ (bo)'};const hand={'パ':'ハ + ゜→ パ (pa)','ピ':'ヒ + ゜→ ピ (pi)','プ':'フ + ゜→ プ (pu)','ペ':'ヘ + ゜→ ペ (pe)','ポ':'ホ + ゜→ ポ (po)'};for(const ch of j){if(dak[ch])notes.push('浊音 '+dak[ch]);if(hand[ch])notes.push('半浊音 '+hand[ch])}notes.push(...YOUON.filter(([x])=>j.includes(x)).map(([x,r])=>`拗音 ${x} = ${r}`));if(j.includes('ッ'))notes.push('小ッ：让后面的辅音加倍/产生短促停顿');if(j.includes('ー'))notes.push('ー：把前一个元音拉长');return[...new Set(notes)].join('；')}
+function updateHome(){$('#xp').textContent=state.xp;$('#streak').textContent=state.streak;$('#dailyProgress').style.width=Math.min(100,state.doneToday/15*100)+'%';const stats=Object.values(state.items),attempts=stats.reduce((a,x)=>a+x.right+x.wrong,0),rights=stats.reduce((a,x)=>a+x.right,0);$('#mastery').textContent=(attempts?Math.round(rights/attempts*100):0)+'%';$('#dueCount').textContent='复习 '+Object.values(state.items).filter(x=>x.due<=today()).length;const weak=Object.entries(state.items).sort((a,b)=>((b[1].wrong+1)/(b[1].right+b[1].wrong+2))-((a[1].wrong+1)/(a[1].right+a[1].wrong+2))).slice(0,6).map(x=>x[0]);$('#weakList').innerHTML=(weak.length?weak:['シ / ツ','ソ / ン','ジ','小ッ','拆词']).map(x=>`<span class="chip">${x}</span>`).join('')}
 function kanaQ(){const[j,r,ds]=CONF[Math.floor(Math.random()*CONF.length)];return{key:j,type:'易混速辨',prompt:`「${j}」怎么读？`,sub:'训练第一眼反应。',answer:r,options:shuffle([r,...ds.map(d=>KANA.find(x=>x[0]===d)?.[1]||d)]),note:`${j} = ${r}。易混组：${[j,...ds].join(' / ')}`}}
 function vocabQ(v=VOCAB[Math.floor(Math.random()*VOCAB.length)]){const reverse=Math.random()<.25,m=spellingNote(v.j),note=`读音 ${v.r}。词源/联想：${v.src}${m?'。读音规则：'+m:''}`;if(reverse)return{key:v.j,type:`${v.cat} · 反向识别`,prompt:`“${v.c}”是哪一个？`,sub:'从意思反推片假名。',answer:v.j,options:shuffle([v.j,...distract(v.j,VOCAB.map(x=>x.j))]),note};return{key:v.j,type:`${v.cat} · 外来语`,prompt:v.j,sub:'看到这个词，直接判断含义。',answer:v.c,options:shuffle([v.c,...distract(v.c,VOCAB.map(x=>x.c))]),note}}
+function chunkQ(c=CHUNKS[Math.floor(Math.random()*CHUNKS.length)]){const style=Math.random();const split=c.chunks.join('・');if(style<.45){const wrongs=distract(split,CHUNKS.map(x=>x.chunks.join('・')));return{key:'chunk:'+c.j,type:'拆词阅读',prompt:c.j,sub:'哪一种切分最适合快速阅读？',answer:split,options:shuffle([split,...wrongs]),note:`推荐拆法：${split} → ${c.r}。${c.tip} 意思：${c.c}。`}}if(style<.75){return{key:'chunk:'+c.j,type:'拆词阅读',prompt:`${split}`,sub:'按块读，这个词整体是什么意思？',answer:c.c,options:shuffle([c.c,...distract(c.c,CHUNKS.map(x=>x.c))]),note:`${c.j} → ${c.r} → ${c.c}。${c.tip}`}}const rOpts=distract(c.r,CHUNKS.map(x=>x.r));return{key:'chunk:'+c.j,type:'拆词阅读',prompt:c.j,sub:`先在脑中切成 ${split}，再选读音。`,answer:c.r,options:shuffle([c.r,...rOpts]),note:`${split} → ${c.r}。${c.tip} 意思：${c.c}。`}}
 function sceneQ(){const s=SCENES[Math.floor(Math.random()*SCENES.length)];return{key:'scene:'+s.ctx,type:'真实场景',context:s.ctx,prompt:s.p,sub:'按在日本现场看到时的实际含义回答。',answer:s.a,options:shuffle([s.a,...s.o]),note:s.note}}
 function patternQ(){const p=PATTERNS[Math.floor(Math.random()*PATTERNS.length)];return{...p,options:shuffle(p.options),sub:'先认变化，再记规则。'}}
-function speedQ(){const r=Math.random();return r<.4?kanaQ():r<.75?vocabQ():patternQ()}
-function buildQueue(m){mode=m;let q=[];if(m==='confuse')q=Array.from({length:15},kanaQ);else if(m==='vocab')q=sample(VOCAB,15).map(v=>vocabQ(v));else if(m==='pattern')q=Array.from({length:15},patternQ);else if(m==='scene')q=Array.from({length:12},sceneQ);else if(m==='speed')q=Array.from({length:20},speedQ);else q=shuffle([...Array.from({length:3},kanaQ),...Array.from({length:4},patternQ),...sample(VOCAB,5).map(v=>vocabQ(v)),...Array.from({length:4},sceneQ)]).slice(0,15);return q}
+function speedQ(){const r=Math.random();return r<.3?kanaQ():r<.55?vocabQ():r<.78?chunkQ():patternQ()}
+function buildQueue(m){mode=m;let q=[];if(m==='confuse')q=Array.from({length:15},kanaQ);else if(m==='vocab')q=sample(VOCAB,15).map(v=>vocabQ(v));else if(m==='chunk')q=sample(CHUNKS,15).map(c=>chunkQ(c));else if(m==='pattern')q=Array.from({length:15},patternQ);else if(m==='scene')q=Array.from({length:12},sceneQ);else if(m==='speed')q=Array.from({length:20},speedQ);else q=shuffle([...Array.from({length:3},kanaQ),...Array.from({length:3},patternQ),...sample(VOCAB,3).map(v=>vocabQ(v)),...sample(CHUNKS,3).map(c=>chunkQ(c)),...Array.from({length:3},sceneQ)]).slice(0,15);return q}
 function start(m='daily'){queue=buildQueue(m);idx=0;correct=0;wrong=[];show('quiz');renderQ()}
 function renderQ(){answered=false;const q=queue[idx];$('#qType').textContent=q.type;$('#context').textContent=q.context||'';$('#prompt').textContent=q.prompt;$('#subprompt').textContent=q.sub||'';$('#quizCounter').textContent=`${idx+1}/${queue.length}`;$('#quizProgress').style.width=(idx/queue.length*100)+'%';$('#feedback').className='feedback hidden';$('#next').classList.add('hidden');$('#options').innerHTML='';q.options.forEach(o=>{const b=document.createElement('button');b.className='option';b.textContent=o;b.onclick=()=>answer(b,o,q);$('#options').appendChild(b)})}
 function schedule(st,ok){if(ok){st.box=Math.min(5,(st.box||0)+1);const d=new Date();d.setDate(d.getDate()+[0,1,3,7,14,30][st.box]);st.due=d.toLocaleDateString('en-CA')}else{st.box=0;st.due=today()}}
