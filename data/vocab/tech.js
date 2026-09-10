@@ -39,4 +39,13 @@ KanaData.vocab.push(
   {j:'ファイル',r:'fairu',c:'文件',src:'file',cat:'科技',w:3},
   {j:'フォルダー',r:'forudaa',c:'文件夹',src:'folder',cat:'科技',w:2},
   {j:'Wi-Fi',r:'waifai',c:'无线网络',src:'Wi-Fi',cat:'科技',w:3}
+,
+  {j:'タッチパネル',r:'tacchi paneru',c:'触摸屏',src:'touch panel',cat:'界面',w:3},
+  {j:'スキャン',r:'sukyan',c:'扫描',src:'scan',cat:'界面',w:2},
+  {j:'オンラインチケット',r:'onrain chiketto',c:'电子/在线票券',src:'online ticket',cat:'界面',w:2},
+  {j:'モバイルチケット',r:'mobairu chiketto',c:'手机票券',src:'mobile ticket',cat:'界面',w:2},
+  {j:'リロード',r:'riroodo',c:'重新加载',src:'reload',cat:'界面',w:2},
+  {j:'エラー',r:'eraa',c:'错误/故障提示',src:'error',cat:'界面',w:3},
+  {j:'タイムアウト',r:'taimu auto',c:'超时',src:'timeout',cat:'界面',w:2},
+  {j:'コンファーム',r:'konfaamu',c:'确认',src:'confirm',cat:'界面',w:1}
 );
