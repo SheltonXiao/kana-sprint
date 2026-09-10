@@ -54,35 +54,69 @@ function totalAttempts(){return Object.values(state.items||{}).reduce((n,s)=>n+(
 function totalRight(){return Object.values(state.items||{}).reduce((n,s)=>n+(s.right||0),0)}
 function fmtDate(d){return d.toLocaleDateString('en-CA')}
 function weekdayCN(d){return ['日','一','二','三','四','五','六'][d.getDay()]}
+function startOfWeekMonday(base=new Date()){
+  const d=new Date(base);d.setHours(12,0,0,0);
+  const day=d.getDay();
+  d.setDate(d.getDate()-(day===0?6:day-1));
+  return d;
+}
+function humanDate(d){return `${d.getMonth()+1}/${d.getDate()}`}
+
+function friendlyWeakLabel(key){
+  if(!key)return '';
+  if(key.startsWith('chunk:'))return key.slice(6)+' · 拆词';
+  if(key.startsWith('scene:')){
+    const raw=key.slice(6);
+    const s=typeof SCENES!=='undefined'?SCENES.find(x=>x.ctx===raw):null;
+    if(s){
+      const focus=(s.ctx.split(/[:：]/).slice(1).join('：')||s.ctx).trim();
+      return (focus.length>18?focus.slice(0,18)+'…':focus)+' · 场景';
+    }
+    return (raw.length>18?raw.slice(0,18)+'…':raw)+' · 场景';
+  }
+  return key;
+}
+function renderFriendlyWeakLabels(){
+  const wrap=document.getElementById('weakList');
+  if(!wrap)return;
+  [...wrap.children].forEach(el=>{el.textContent=friendlyWeakLabel(el.textContent)});
+}
+
 function renderStudySummary(){
   const history=new Set(state.studyHistory||[]),attempts=totalAttempts(),rights=totalRight();
   const byId=id=>document.getElementById(id);
   if(byId('studyDays'))byId('studyDays').textContent=history.size;
   if(byId('currentStreak'))byId('currentStreak').textContent=state.streak||0;
-  if(byId('longestStreak'))byId('longestStreak').textContent=Math.max(state.longestStreak||0,state.streak||0);
-  if(byId('totalSessions'))byId('totalSessions').textContent=state.sessions||0;
   if(byId('totalAnswers'))byId('totalAnswers').textContent=attempts;
   if(byId('overallAccuracy'))byId('overallAccuracy').textContent=attempts?Math.round(rights/attempts*100)+'%':'—';
+
   const week=byId('weekCheckins');
   if(week){
     week.innerHTML='';
-    for(let i=6;i>=0;i--){
-      const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);
-      const hit=history.has(fmtDate(d));
-      const el=document.createElement('div');el.className='day-dot '+(hit?'done':'');
-      el.innerHTML=`<span>${weekdayCN(d)}</span><b>${d.getDate()}</b>`;
+    const monday=startOfWeekMonday();
+    const sunday=new Date(monday);sunday.setDate(monday.getDate()+6);
+    const range=byId('weekRange');
+    if(range)range.textContent=`${humanDate(monday)} – ${humanDate(sunday)}`;
+    for(let i=0;i<7;i++){
+      const d=new Date(monday);d.setDate(monday.getDate()+i);
+      const dateKey=fmtDate(d),hit=history.has(dateKey),isToday=dateKey===today();
+      const el=document.createElement('div');
+      el.className='day-dot '+(hit?'done ':'')+(isToday?'today':'');
+      el.innerHTML=`<span>周${weekdayCN(d)}</span><b>${hit?'✓':d.getDate()}</b>${isToday?'<small>TODAY</small>':''}`;
       week.appendChild(el);
     }
   }
+
   const note=byId('summaryNote');
   if(note){
-    if((state.streak||0)>=7)note.textContent='已经连续学习一周以上';
-    else if((state.streak||0)>=3)note.textContent='连续节奏正在形成';
-    else if(history.size)note.textContent='保持轻量但持续的练习';
+    if((state.streak||0)>=7)note.textContent='本周节奏很稳';
+    else if((state.streak||0)>=3)note.textContent='连续学习正在形成';
+    else if(history.size)note.textContent='保持轻量、持续就好';
     else note.textContent='从今天开始记录';
   }
 }
 
 const updateHomeBeforeSummary=updateHome;
-updateHome=function(){updateHomeBeforeSummary();renderStudySummary()};
+updateHome=function(){updateHomeBeforeSummary();renderFriendlyWeakLabels();renderStudySummary()};
+renderFriendlyWeakLabels();
 renderStudySummary();
