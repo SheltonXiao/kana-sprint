@@ -40,7 +40,41 @@ function hasChunkFeature(c){return/[ッーャュョァィゥェォ]/.test(c.j)}
 function chunkQ(c=weightedSample(CHUNKS,1,x=>recentFactor(chunkKey(x))*reviewBoost(chunkKey(x)))[0]){const split=c.chunks.join('・'),style=Math.random();if(hasChunkFeature(c)&&style<.46)return{key:chunkKey(c),type:'拆词阅读',prompt:c.j,sub:'四个选项都能拼回原词。选最利于保留小ッ、长音、拗音等声音块的推荐拆法。',answer:split,options:chunkSplitOptions(c),note:`推荐拆法：${split}。${c.tip} 意思：${c.c}。`,romaji:c.r};if(style<.74)return{key:chunkKey(c),type:'拆词阅读',prompt:split,sub:'按这些声音块快速读，整体是什么意思？',answer:c.c,options:shuffle([c.c,...distract(c.c,CHUNKS.map(x=>x.c))]),note:`${c.j} = ${c.c}。${c.tip}`,romaji:c.r};return{key:chunkKey(c),type:'拆词阅读',prompt:c.j,sub:`先在脑中按 ${split} 分块，再选最接近的读音。`,answer:c.r,options:shuffle([c.r,...distract(c.r,CHUNKS.map(x=>x.r))]),note:`推荐拆法：${split}。${c.tip} 意思：${c.c}。`}}
 function sceneQ(s=weightedSample(SCENES,1,x=>recentFactor(sceneKey(x))*reviewBoost(sceneKey(x)))[0]){return{key:sceneKey(s),type:'真实场景',context:s.ctx,prompt:s.p,sub:'先读现场文字，再按实际语境回答。',answer:s.a,options:shuffle([s.a,...s.o]),note:s.note}}
 function patternQ(p=PATTERNS[Math.floor(Math.random()*PATTERNS.length)]){return{...p,key:patternKey(p),options:shuffle(p.options),sub:'先认变化，再记规则。'}}
-function kanjiQ(item=KANJI_WORDS[Math.floor(Math.random()*KANJI_WORDS.length)]){const askMeaning=Math.random()<.28;if(askMeaning)return{key:kanjiKey(item),type:'进阶 · 汉字实用词',prompt:item.k,sub:`${item.cat}场景：先在脑中读成片假名，再判断含义。`,answer:item.c,options:shuffle([item.c,...distract(item.c,KANJI_WORDS.map(x=>x.c))]),note:`${item.k} → ${item.y} → ${item.c}。`};return{key:kanjiKey(item),type:'进阶 · 汉字标音',prompt:`「${item.k}」怎么读？`,sub:'目前尚未学习平假名，所以统一使用片假名标音。',answer:item.y,options:shuffle([item.y,...distract(item.y,KANJI_WORDS.map(x=>x.y))]),note:`${item.k} → ${item.y}，意思是“${item.c}”。`}}
+
+const KATA_ROMAJI={
+'ア':'a','イ':'i','ウ':'u','エ':'e','オ':'o','カ':'ka','キ':'ki','ク':'ku','ケ':'ke','コ':'ko','サ':'sa','シ':'shi','ス':'su','セ':'se','ソ':'so','タ':'ta','チ':'chi','ツ':'tsu','テ':'te','ト':'to','ナ':'na','ニ':'ni','ヌ':'nu','ネ':'ne','ノ':'no','ハ':'ha','ヒ':'hi','フ':'fu','ヘ':'he','ホ':'ho','マ':'ma','ミ':'mi','ム':'mu','メ':'me','モ':'mo','ヤ':'ya','ユ':'yu','ヨ':'yo','ラ':'ra','リ':'ri','ル':'ru','レ':'re','ロ':'ro','ワ':'wa','ヲ':'wo','ン':'n',
+'ガ':'ga','ギ':'gi','グ':'gu','ゲ':'ge','ゴ':'go','ザ':'za','ジ':'ji','ズ':'zu','ゼ':'ze','ゾ':'zo','ダ':'da','ヂ':'ji','ヅ':'zu','デ':'de','ド':'do','バ':'ba','ビ':'bi','ブ':'bu','ベ':'be','ボ':'bo','パ':'pa','ピ':'pi','プ':'pu','ペ':'pe','ポ':'po',
+'キャ':'kya','キュ':'kyu','キョ':'kyo','シャ':'sha','シュ':'shu','ショ':'sho','チャ':'cha','チュ':'chu','チョ':'cho','ニャ':'nya','ニュ':'nyu','ニョ':'nyo','ヒャ':'hya','ヒュ':'hyu','ヒョ':'hyo','ミャ':'mya','ミュ':'myu','ミョ':'myo','リャ':'rya','リュ':'ryu','リョ':'ryo','ギャ':'gya','ギュ':'gyu','ギョ':'gyo','ジャ':'ja','ジュ':'ju','ジョ':'jo','ビャ':'bya','ビュ':'byu','ビョ':'byo','ピャ':'pya','ピュ':'pyu','ピョ':'pyo',
+'ファ':'fa','フィ':'fi','フェ':'fe','フォ':'fo','ティ':'ti','ディ':'di','チェ':'che','ウォ':'wo','ウィ':'wi','ウェ':'we','ヴァ':'va','ヴィ':'vi','ヴ':'vu','ヴェ':'ve','ヴォ':'vo'
+};
+function katakanaToRomaji(text=''){
+  const chars=Array.from(text);let out='';
+  for(let i=0;i<chars.length;i++){
+    if(chars[i]==='ッ'){
+      const pair=(chars[i+1]||'')+(chars[i+2]||''),single=chars[i+1]||'',next=KATA_ROMAJI[pair]||KATA_ROMAJI[single]||'';
+      if(next)out+=next[0];continue;
+    }
+    if(chars[i]==='ー'){
+      const m=out.match(/[aeiou](?!.*[aeiou])/);if(m)out+=m[0];continue;
+    }
+    const pair=chars[i]+(chars[i+1]||'');
+    if(KATA_ROMAJI[pair]){out+=KATA_ROMAJI[pair];i++;continue}
+    out+=KATA_ROMAJI[chars[i]]||'';
+  }
+  return out;
+}
+function kanjiStage(item){const st=state.items?.[kanjiKey(item)]||{right:0,wrong:0};const a=attemptsFor(st),acc=a?(st.right||0)/a:0;if(a<2||acc<.5)return'guided';if(a<5||acc<.8)return'romaji';return'mixed'}
+function kanjiQ(item=KANJI_WORDS[Math.floor(Math.random()*KANJI_WORDS.length)]){
+  const key=kanjiKey(item),stage=kanjiStage(item),romaji=katakanaToRomaji(item.y),allRomaji=KANJI_WORDS.map(x=>katakanaToRomaji(x.y));
+  if(stage==='guided'){
+    return{key,type:'进阶 · 汉字领读',prompt:`${item.k}　${item.y}`,sub:`先跟着读：${romaji}。这一阶段先建立“汉字 → 读音 → 含义”的联系。`,answer:item.c,options:shuffle([item.c,...distract(item.c,KANJI_WORDS.map(x=>x.c))]),note:`${item.k} → ${item.y} → ${romaji} → ${item.c}。`,romaji};
+  }
+  if(stage==='romaji'||Math.random()<.72){
+    const hint=item.y.length>2?item.y.slice(0,2)+'…':item.y.slice(0,1)+'…';
+    return{key,type:'进阶 · 汉字读音',prompt:`「${item.k}」怎么读？`,sub:`提示：${hint}　先在脑中读成片假名，再选罗马音。`,answer:romaji,options:shuffle([romaji,...distract(romaji,allRomaji)]),note:`${item.k} → ${item.y} → ${romaji}，意思是“${item.c}”。`};
+  }
+  return{key,type:'进阶 · 汉字标音',prompt:`「${item.k}」怎么读？`,sub:'这个词已经比较熟了，试着直接认出片假名读音。',answer:item.y,options:shuffle([item.y,...distract(item.y,KANJI_WORDS.map(x=>x.y))]),note:`${item.k} → ${item.y} → ${romaji}，意思是“${item.c}”。`,romaji};
+}
 function speedQ(){const r=Math.random();return r<.22?kanaQ():r<.56?vocabQ():r<.76?chunkQ():r<.91?patternQ():sceneQ()}
 
 function questionForKey(key){if(!key)return null;if(key.startsWith('scene:')){const s=SCENES.find(x=>sceneKey(x)===key);return s?sceneQ(s):null}if(key.startsWith('chunk:')){const c=CHUNKS.find(x=>chunkKey(x)===key);return c?chunkQ(c):null}if(key.startsWith('pattern:')){const p=PATTERNS.find(x=>patternKey(x)===key);return p?patternQ(p):null}if(key.startsWith('kanji:')){const k=KANJI_WORDS.find(x=>kanjiKey(x)===key);return k?kanjiQ(k):null}const v=VOCAB.find(x=>x.j===key);if(v)return vocabQ(v);const cf=CONF.find(x=>x[0]===key);return cf?kanaQ(cf):null}
