@@ -6,6 +6,7 @@
 <title>Kana Sprint · 片假名实战</title>
 <meta name="theme-color" content="#58cc02" />
 <link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="enhancements.css" />
 </head>
 <body>
 <header class="topbar">
@@ -25,6 +26,7 @@
     </div>
     <p class="section-title">选择一种玩法</p>
     <div class="grid">
+      <button class="mode card review-mode" data-mode="review" id="reviewMistakes"><span class="mode-icon">🔁</span><div><b>错题复习</b><small id="reviewCopy">优先复习反复答错和今天到期的项目</small></div><em id="reviewBadge" class="review-badge">0</em></button>
       <button class="mode card" data-mode="confuse"><span class="mode-icon">👀</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · 看清那一撇</small></div></button>
       <button class="mode card" data-mode="vocab"><span class="mode-icon">🍜</span><div><b>外来语实战</b><small>菜单、商店、酒店里的高频词</small></div></button>
       <button class="mode card" data-mode="chunk"><span class="mode-icon">🧩</span><div><b>拆词阅读</b><small>把 チョコレート 拆成能读的小块</small></div></button>
@@ -34,6 +36,14 @@
       <button class="mode card reference-mode" id="openChart"><span class="mode-icon">🗂️</span><div><b>片假名急救表</b><small>突然记混了？随时回来扫一眼</small></div></button>
     </div>
     <section class="card weakbox"><p class="eyebrow">🧠 最近容易卡住</p><div id="weakList" class="chips"></div></section>
+    <section class="card settings-card">
+      <div><p class="eyebrow">⚙️ 学习设置</p><h3>罗马音提示</h3><p id="romajiExplain">自动模式会在你熟练后慢慢减少提示，答错时仍会显示。</p></div>
+      <select id="romajiMode" aria-label="罗马音提示模式">
+        <option value="auto">自动调整</option>
+        <option value="always">始终显示</option>
+        <option value="minimal">尽量隐藏</option>
+      </select>
+    </section>
   </section>
 
   <section id="chart" class="screen">
@@ -63,5 +73,6 @@
 </main>
 <footer>进度保存在本机浏览器 · 无账号 · GitHub Pages</footer>
 <script src="app.js"></script>
+<script src="enhancements.js"></script>
 </body>
 </html>
