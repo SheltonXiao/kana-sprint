@@ -130,4 +130,11 @@ if(select){
   select.onchange();
 }
 
+// Keep learning history as the closing section of the home screen.
+(function moveStudySummaryToBottom(){
+  const summary=document.querySelector('.study-summary');
+  const settings=document.querySelector('.settings-card');
+  if(summary&&settings&&settings.parentNode){settings.insertAdjacentElement('afterend',summary)}
+})();
+
 updateHome();
