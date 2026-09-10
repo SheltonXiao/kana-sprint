@@ -27,4 +27,6 @@ KanaData.vocab.push(
   {j:'トレーニング',r:'toreeningu',c:'训练',src:'training',cat:'生活',w:2},
   {j:'ジム',r:'jimu',c:'健身房',src:'gym',cat:'生活',w:2},
   {j:'エアコン',r:'eakon',c:'空调',src:'air conditioner',cat:'生活',w:3}
+,
+  {j:'セルフサービス',r:'serufu saabisu',c:'自助服务',src:'self-service',cat:'通用',w:2}
 );
