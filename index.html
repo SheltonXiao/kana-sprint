@@ -37,12 +37,12 @@
       <button class="mode card reference-mode" id="openChart"><span class="mode-icon">ア</span><div><b>片假名复习表</b><small>突然记混了？随时回来快速对照</small></div></button>
     </div>
 
-    <section class="card weakbox"><p class="eyebrow">最近容易卡住</p><div id="weakList" class="chips"></div></section>
+    <section class="card weakbox"><div class="weakbox-head"><p class="eyebrow">最近容易卡住</p><span>左右滑动查看更多</span></div><div id="weakList" class="chips" tabindex="0" aria-label="最近容易卡住的项目，可横向滚动"></div></section>
     <section class="card settings-card"><div><p class="eyebrow">学习设置</p><h3>罗马音提示</h3><p id="romajiExplain">自动模式会在你熟练后慢慢减少提示，答错时仍会显示。</p></div><select id="romajiMode" aria-label="罗马音提示模式"><option value="auto">自动调整</option><option value="always">始终显示</option><option value="minimal">尽量隐藏</option></select></section>
 
     <section class="card study-summary">
-      <div class="summary-head"><div><p class="eyebrow">学习打卡</p><h3>本周打卡</h3></div><span id="summaryNote">从今天开始记录</span></div>
-      <div class="checkin-main"><div class="checkin-stat"><b id="studyDays">0</b><span>累计学习天数</span></div><div class="checkin-stat"><b id="currentStreak">0</b><span>连续天数</span></div></div>
+      <div class="summary-head"><div><p class="eyebrow">学习打卡</p><h3>本周打卡</h3></div><div class="checkin-main"><div class="checkin-stat"><b id="studyDays">0</b><span>累计学习天数</span></div><div class="checkin-stat"><b id="currentStreak">0</b><span>连续天数</span></div></div></div>
+      <div class="summary-note-row"><span id="summaryNote">从今天开始记录</span><span class="week-legend"><i></i>已学习 <i></i>今天</span></div>
       <div class="week-wrap"><div class="week-title"><span class="week-label">周一 — 周日</span><span id="weekRange"></span></div><div id="weekCheckins" class="week-checkins"></div></div>
       <div class="summary-secondary"><span>累计答题 <b id="totalAnswers">0</b></span><span>正确率 <b id="overallAccuracy">—</b></span></div>
     </section>
