@@ -2,9 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Kana Sprint · 片假名实战</title>
-<meta name="theme-color" content="#f7f8fb" />
+<meta name="theme-color" content="#58cc02" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,69 +15,53 @@
 <main class="shell">
   <section id="home" class="screen active">
     <div class="hero card">
-      <div><p class="eyebrow">TODAY'S KATAKANA</p><h1>不是背表，是快速读懂。</h1><p>每天 5–10 分钟：易混片假名、变音规则、拆词阅读、真实外来语、菜单与车站场景。</p></div>
+      <div><p class="eyebrow">今日挑战 · TODAY'S QUEST</p><h1>今天能一眼读出多少？</h1><p>不再背顺序。把片假名练成看到就懂：易混字、变音、拆长词，再到日本真实场景。</p></div>
       <div class="ring"><b id="mastery">0%</b><small>掌握度</small></div>
     </div>
-    <div class="today card">
-      <div class="today-head"><div><p class="eyebrow">今日任务</p><h2>15 题混合练习</h2></div><span class="pill" id="dueCount">复习 0</span></div>
-      <div class="progress"><i id="dailyProgress"></i></div><button class="primary" id="startDaily">开始今天的练习</button>
+    <div class="today card quest-card">
+      <div class="today-head"><div><p class="eyebrow">🎯 每日闯关</p><h2>15 题混合练习</h2></div><span class="pill" id="dueCount">复习 0</span></div>
+      <p class="quest-copy">大约 5 分钟 · 答错的词会自动回来找你</p>
+      <div class="progress"><i id="dailyProgress"></i></div><button class="primary" id="startDaily">开始今日挑战 →</button>
     </div>
+    <p class="section-title">选择一种玩法</p>
     <div class="grid">
-      <button class="mode card" data-mode="confuse"><span>シ</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · ク / ケ</small></div></button>
-      <button class="mode card" data-mode="vocab"><span>ホテル</span><div><b>外来语实战</b><small>高频生活词 + 读音拆解</small></div></button>
-      <button class="mode card" data-mode="chunk"><span>チョ・コ</span><div><b>拆词阅读</b><small>长词切块 · 节奏识读 · 快速猜词</small></div></button>
-      <button class="mode card" data-mode="pattern"><span>ガャッー</span><div><b>变音与特殊音</b><small>浊音 · 半浊音 · 拗音 · 小ッ · 长音ー</small></div></button>
-      <button class="mode card" data-mode="scene"><span>駅</span><div><b>真实场景</b><small>车站 · 餐厅 · 酒店 · 商店</small></div></button>
-      <button class="mode card" data-mode="speed"><span>⚡</span><div><b>60 秒闪练</b><small>训练看到就反应</small></div></button>
-      <button class="mode card" id="openChart"><span>ア</span><div><b>片假名表复习</b><small>基础表 + 变音表 + 易混组</small></div></button>
+      <button class="mode card" data-mode="confuse"><span class="mode-icon">👀</span><div><b>易混速辨</b><small>シ / ツ · ソ / ン · 看清那一撇</small></div></button>
+      <button class="mode card" data-mode="vocab"><span class="mode-icon">🍜</span><div><b>外来语实战</b><small>菜单、商店、酒店里的高频词</small></div></button>
+      <button class="mode card" data-mode="chunk"><span class="mode-icon">🧩</span><div><b>拆词阅读</b><small>把 チョコレート 拆成能读的小块</small></div></button>
+      <button class="mode card" data-mode="pattern"><span class="mode-icon">✨</span><div><b>变音实验室</b><small>浊音 · 半浊音 · 拗音 · 小ッ · 长音ー</small></div></button>
+      <button class="mode card" data-mode="scene"><span class="mode-icon">🗼</span><div><b>日本现场</b><small>车站 · 餐厅 · 酒店 · 便利店</small></div></button>
+      <button class="mode card" data-mode="speed"><span class="mode-icon">⚡</span><div><b>闪电挑战</b><small>20 题快速反应，不给大脑慢慢翻表</small></div></button>
+      <button class="mode card reference-mode" id="openChart"><span class="mode-icon">🗂️</span><div><b>片假名急救表</b><small>突然记混了？随时回来扫一眼</small></div></button>
     </div>
-    <section class="card weakbox"><p class="eyebrow">你的薄弱项</p><div id="weakList" class="chips"></div></section>
+    <section class="card weakbox"><p class="eyebrow">🧠 最近容易卡住</p><div id="weakList" class="chips"></div></section>
   </section>
 
   <section id="chart" class="screen">
-    <div class="quiztop"><button class="ghost" id="closeChart">←</button><div><p class="eyebrow">KATAKANA REFERENCE</p><b>片假名表复习</b></div></div>
+    <div class="quiztop"><button class="ghost" id="closeChart">←</button><div><p class="eyebrow">KATAKANA REFERENCE</p><b>片假名急救表</b></div></div>
     <article class="card chartcard">
       <h2>基础片假名</h2><p class="subprompt">按五十音顺序快速扫一遍。可以隐藏罗马音后自己认，再点单个字符揭晓。</p>
       <div id="kanaChart" class="kana-chart"></div>
       <button class="secondary" id="toggleRomaji">隐藏全部读音</button>
-
       <h3>浊音 / 半浊音</h3>
       <p class="rule-note"><b>゛浊音：</b>カ→ガ (k→g)、サ→ザ (s→z)、タ→ダ (t→d)、ハ→バ (h→b)。<br><b>゜半浊音：</b>只有ハ行，加圈后变成 p：ハ→パ、ヒ→ピ、フ→プ、ヘ→ペ、ホ→ポ。</p>
       <div id="dakutenChart" class="mini-chart"></div>
-
       <h3>拗音</h3>
-      <p class="rule-note"><b>规则：</b>イ段音 + 小ャ / ュ / ョ，合成一个拍，例如 キ + ャ → キャ (kya)，シ + ュ → シュ (shu)，チ + ョ → チョ (cho)。小字一定要看出来。</p>
+      <p class="rule-note"><b>规则：</b>イ段音 + 小ャ / ュ / ョ，合成一个拍，例如 キ + ャ → キャ (kya)，シ + ュ → シュ (shu)，チ + ョ → チョ (cho)。</p>
       <div id="youonChart" class="mini-chart"></div>
-
       <h3>小ッ 与 长音 ー</h3>
-      <div class="rule-cards">
-        <div><b>小ッ = 后面辅音加倍</b><span>ベッド beddo、チケット chiketto、スタッフ sutaffu</span></div>
-        <div><b>ー = 前一个元音拉长</b><span>コーヒー koohii、ケーキ keeki、スーパー suupaa</span></div>
-      </div>
-
+      <div class="rule-cards"><div><b>小ッ = 后面辅音加倍</b><span>ベッド beddo、チケット chiketto、スタッフ sutaffu</span></div><div><b>ー = 前一个元音拉长</b><span>コーヒー koohii、ケーキ keeki、スーパー suupaa</span></div></div>
       <h3>拆长词的小技巧</h3>
       <p class="rule-note"><b>不要一个字一个字硬读。</b>优先把拗音、小ッ、长音和熟悉词块圈在一起。例如 <b>チョコレート → チョ・コ・レー・ト</b>，<b>チェックアウト → チェッ・ク・アウ・ト</b>，<b>コインロッカー → コイン・ロッ・カー</b>。</p>
-
       <h3>最容易混的几组</h3>
-      <div class="confuse-groups">
-        <div><b>シ shi</b><span>↔</span><b>ツ tsu</b><small>シ 的两点偏横向，ツ 的两点偏竖向。</small></div>
-        <div><b>ソ so</b><span>↔</span><b>ン n</b><small>ソ 的短笔像往下落，ン 更像从左下往右上挑。</small></div>
-        <div><b>ク ku</b><span>↔</span><b>ケ ke</b><small>ケ 比 ク 多一条竖笔。</small></div>
-        <div><b>ヌ nu</b><span>↔</span><b>ス su</b><small>ヌ 有明显交叉回钩，ス 更简洁。</small></div>
-      </div>
+      <div class="confuse-groups"><div><b>シ shi</b><span>↔</span><b>ツ tsu</b><small>シ 的两点偏横向，ツ 的两点偏竖向。</small></div><div><b>ソ so</b><span>↔</span><b>ン n</b><small>ソ 的短笔像往下落，ン 更像从左下往右上挑。</small></div><div><b>ク ku</b><span>↔</span><b>ケ ke</b><small>ケ 比 ク 多一条竖笔。</small></div><div><b>ヌ nu</b><span>↔</span><b>ス su</b><small>ヌ 有明显交叉回钩，ス 更简洁。</small></div></div>
     </article>
   </section>
 
-  <section id="quiz" class="screen">
-    <div class="quiztop"><button class="ghost" id="quit">✕</button><div class="progress"><i id="quizProgress"></i></div><span id="quizCounter">1/15</span></div>
-    <article class="question card">
-      <p class="eyebrow" id="qType">快速识别</p><div id="context" class="context"></div><h2 id="prompt"></h2><p id="subprompt" class="subprompt"></p><div id="options" class="options"></div><div id="feedback" class="feedback hidden"></div><button id="next" class="primary hidden">继续</button>
-    </article>
-  </section>
+  <section id="quiz" class="screen"><div class="quiztop"><button class="ghost" id="quit">✕</button><div class="progress"><i id="quizProgress"></i></div><span id="quizCounter">1/15</span></div><article class="question card"><p class="eyebrow" id="qType">快速识别</p><div id="context" class="context"></div><h2 id="prompt"></h2><p id="subprompt" class="subprompt"></p><div id="options" class="options"></div><div id="feedback" class="feedback hidden"></div><button id="next" class="primary hidden">继续 →</button></article></section>
 
-  <section id="result" class="screen"><article class="result card"><div class="resultEmoji">🎌</div><p class="eyebrow">SESSION COMPLETE</p><h1 id="resultTitle">练完了！</h1><p id="resultText"></p><div class="resultstats"><div><b id="scorePct">0%</b><small>正确率</small></div><div><b id="earnedXp">0</b><small>XP</small></div><div><b id="wrongCount">0</b><small>待复习</small></div></div><button class="primary" id="backHome">回到首页</button></article></section>
+  <section id="result" class="screen"><article class="result card"><div class="resultEmoji">🎌</div><p class="eyebrow">QUEST COMPLETE</p><h1 id="resultTitle">这一关结束！</h1><p id="resultText"></p><div class="resultstats"><div><b id="scorePct">0%</b><small>正确率</small></div><div><b id="earnedXp">0</b><small>XP</small></div><div><b id="wrongCount">0</b><small>待复习</small></div></div><button class="primary" id="backHome">回到首页</button></article></section>
 </main>
-<footer>进度仅保存在本机浏览器 · 无账号 · GitHub Pages</footer>
+<footer>进度保存在本机浏览器 · 无账号 · GitHub Pages</footer>
 <script src="app.js"></script>
 </body>
 </html>
