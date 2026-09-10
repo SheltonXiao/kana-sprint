@@ -29,4 +29,19 @@ KanaData.vocab.push(
   {j:'フロアガイド',r:'furoa gaido',c:'楼层指南',src:'floor guide',cat:'购物',w:2},
   {j:'レンタル',r:'rentaru',c:'租赁/出租',src:'rental',cat:'购物',w:2},
   {j:'カウンター',r:'kauntaa',c:'柜台',src:'counter',cat:'购物',w:3}
+,
+  {j:'タックスフリー',r:'takkusu furii',c:'免税',src:'tax-free',cat:'购物',w:3},
+  {j:'デューティーフリー',r:'dyuutii furii',c:'免税店/免关税',src:'duty-free',cat:'购物',w:2},
+  {j:'アウトレット',r:'autoretto',c:'奥特莱斯/折扣店',src:'outlet',cat:'购物',w:2},
+  {j:'ショッピングモール',r:'shoppingu mooru',c:'购物中心',src:'shopping mall',cat:'购物',w:2},
+  {j:'フードコート',r:'fuudo kooto',c:'美食广场',src:'food court',cat:'购物',w:3},
+  {j:'サービスカウンター',r:'saabisu kauntaa',c:'服务台',src:'service counter',cat:'购物',w:2},
+  {j:'フィッティングルーム',r:'fittingu ruumu',c:'试衣间',src:'fitting room',cat:'购物',w:3},
+  {j:'テスター',r:'tesutaa',c:'试用装/测试品',src:'tester',cat:'购物',w:2},
+  {j:'サンプル',r:'sanpuru',c:'样品/试用品',src:'sample',cat:'购物',w:2},
+  {j:'レディース',r:'rediisu',c:'女装/女士款',src:'ladies',cat:'购物',w:2},
+  {j:'メンズ',r:'menzu',c:'男装/男士款',src:'mens',cat:'购物',w:2},
+  {j:'キッズ',r:'kizzu',c:'儿童款/儿童区',src:'kids',cat:'购物',w:2},
+  {j:'ユニセックス',r:'yunisekkusu',c:'男女通用',src:'unisex',cat:'购物',w:1},
+  {j:'ストック',r:'sutokku',c:'库存',src:'stock',cat:'购物',w:2}
 );
